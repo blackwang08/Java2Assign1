@@ -9,23 +9,22 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 class Movie {
-    private String Series_Title;
-    private int Released_Year;
-    private String Certificate;
-    private String Runtime;
-    private String Genre;
-    private float IMDB_Rating;
-    private String Overview;
-    private int Meta_score;
-    private String Director;
-    private String Star1;
-    private String Star2;
-    private String Star3;
-    private String Star4;
-    private long No_of_Votes;
-    private String Gross;
-
-    public Movie(String Series_Title,
+  private String Series_Title;
+  private int Released_Year;
+  private String Certificate;
+  private String Runtime;
+  private String Genre;
+  private float IMDB_Rating;
+  private String Overview;
+  private int Meta_score;
+  private String Director;
+  private String Star1;
+  private String Star2;
+  private String Star3;
+  private String Star4;
+  private long No_of_Votes;
+  private String Gross;
+  public Movie(String Series_Title,
                  int Released_Year,
                  String Certificate,
                  String Runtime,
@@ -40,109 +39,139 @@ class Movie {
                  String Star4,
                  long No_of_Votes,
                  String Gross) {
-        this.Series_Title = Series_Title;
-        this.Released_Year = Released_Year;
-        this.Certificate = Certificate;
-        this.Runtime = Runtime;
-        this.Genre = Genre;
-        this.IMDB_Rating = IMDB_Rating;
-        this.Overview = Overview;
-        this.Meta_score = Meta_score;
-        this.Director = Director;
-        this.Star1 = Star1;
-        this.Star2 = Star2;
-        this.Star3 = Star3;
-        this.Star4 = Star4;
-        this.No_of_Votes = No_of_Votes;
-        this.Gross = Gross;
-    }
+    this.Series_Title = Series_Title;
+    this.Released_Year = Released_Year;
+    this.Certificate = Certificate;
+    this.Runtime = Runtime;
+    this.Genre = Genre;
+    this.IMDB_Rating = IMDB_Rating;
+    this.Overview = Overview;
+    this.Meta_score = Meta_score;
+    this.Director = Director;
+    this.Star1 = Star1;
+    this.Star2 = Star2;
+    this.Star3 = Star3;
+    this.Star4 = Star4;
+    this.No_of_Votes = No_of_Votes;
+    this.Gross = Gross;
+  }
 
-    @Override
-    public String toString() {
-        return "Movie{Series_Title='" + Series_Title + "'" +
-                ", Released_Year='" + Released_Year + "'" +
-                ", Certificate='" + Certificate + "'" +
-                ", Runtime='" + Runtime + "'" +
-                ", Genre='" + Genre + "'" +
-                ", IMDB_Rating='" + IMDB_Rating + "'" +
-                ", Overview='" + Overview + "'" +
-                ", Meta_score='" + Meta_score + "'" +
-                ", Director='" + Director + "'" +
-                ", Star1='" + Star1 + "'" +
-                ", Star2='" + Star2 + "'" +
-                ", Star3='" + Star3 + "'" +
-                ", Star4='" + Star4 + "'" +
-                ", No_of_Votes='" + No_of_Votes + "'" +
-                ", Gross='" + Gross + "'";
-    }
+  @Override
+  public String toString() {
+    return "Movie{Series_Title='"
+                + Series_Title
+                + "'"
+                + ", Released_Year='"
+                + Released_Year
+                + "'"
+                + ", Certificate='"
+                + Certificate
+                + "'"
+                + ", Runtime='"
+                + Runtime
+                + "'"
+                + ", Genre='"
+                + Genre
+                + "'"
+                + ", IMDB_Rating='"
+                + IMDB_Rating
+                + "'"
+                + ", Overview='"
+                + Overview
+                + "'"
+                + ", Meta_score='"
+                + Meta_score
+                + "'"
+                + ", Director='"
+                + Director
+                + "'"
+                + ", Star1='"
+                + Star1
+                + "'"
+                + ", Star2='"
+                + Star2
+                + "'"
+                + ", Star3='"
+                + Star3
+                + "'"
+                + ", Star4='"
+                + Star4
+                + "'"
+                + ", No_of_Votes='"
+                + No_of_Votes
+                + "'"
+                + ", Gross='"
+                + Gross
+                + "'";
+  }
 
-    public String getSeries_Title() {
-        return Series_Title;
-    }
+  public String getSeries_Title() {
+    return Series_Title;
+  }
 
-    public int getReleased_Year() {
-        return Released_Year;
-    }
+  public int getReleased_Year() {
+    return Released_Year;
+  }
 
-    public String getCertificate() {
-        return Certificate;
-    }
+  public String getCertificate() {
+    return Certificate;
+  }
 
-    public String getRuntime() {
-        return Runtime;
-    }
+  public String getRuntime() {
+    return Runtime;
+  }
 
-    public String getGenre() {
-        return Genre;
-    }
+  public String getGenre() {
+    return Genre;
+  }
 
-    public float getIMDB_Rating() {
-        return IMDB_Rating;
-    }
+  public float getIMDB_Rating() {
+    return IMDB_Rating;
+  }
 
-    public String getOverview() {
-        return Overview.replace("\"", " \"").replace(" \" \"", "\"").replace("\"", "\"\"");
-    }
+  public String getOverview() {
+    return Overview.replace("\"", " \"").replace(" \" \"", "\"").replace("\"", "\"\"");
+  }
 
-    public int getMeta_score() {
-        return Meta_score;
-    }
+  public int getMeta_score() {
+    return Meta_score;
+  }
 
-    public String getDirector() {
-        return Director;
-    }
+  public String getDirector() {
+    return Director;
+  }
 
-    public String getStar1() {
-        return Star1;
-    }
+  public String getStar1() {
+    return Star1;
+  }
 
-    public String getStar2() {
-        return Star2;
-    }
+  public String getStar2() {
+    return Star2;
+  }
 
-    public String getStar3() {
-        return Star3;
-    }
+  public String getStar3() {
+    return Star3;
+  }
 
-    public String getStar4() {
-        return Star4;
-    }
+  public String getStar4() {
+    return Star4;
+  }
 
-    public long getNo_of_Votes() {
-        return No_of_Votes;
-    }
+  public long getNo_of_Votes() {
+    return No_of_Votes;
+  }
 
-    public String getGross() {
-        return Gross;
-    }
+  public String getGross() {
+    return Gross;
+  }
 
-    public Long getGrossLong() {
-        String GrossLong = Gross.replace(",", "");
-        return Long.parseLong(GrossLong);
-    }
-    public List<String> getGenreList() { return Arrays.stream(getGenre().split(", ")).toList(); }
+  public Long getGrossLong() {
+    String GrossLong = Gross.replace(",", "");
+    return Long.parseLong(GrossLong);
+  }
+  public List<String> getGenreList() { return Arrays.stream(getGenre().split(", ")).toList(); }
 
-    public List<List<String>> getStarsPairs() {
+  public List<List<String>> getStarsPairs() {
         List<String> Stars = new ArrayList<>();
         Stars.add(getStar1());
         Stars.add(getStar2());

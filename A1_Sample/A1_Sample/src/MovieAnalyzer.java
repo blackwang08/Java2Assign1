@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -125,7 +126,7 @@ class Movie {
     return Genre;
   }
 
-  public float getIMDB_Rating() {
+  public double getIMDB_Rating() {
     return IMDB_Rating;
   }
 
@@ -193,8 +194,8 @@ class Movie {
         return res;
     }
 
-    public List<String> getStars() {
-        List<String> Stars = new ArrayList<>();
+    public Set<String> getStars() {
+        Set<String> Stars = new HashSet<>();
         Stars.add(getStar1());
         Stars.add(getStar2());
         Stars.add(getStar3());
@@ -207,7 +208,7 @@ public class MovieAnalyzer {
     public MovieAnalyzer(String dataset_path) throws IOException {
         this.MovieString = () -> {
             try {
-                return Files.lines(Paths.get(dataset_path))
+                return Files.lines(Paths.get(dataset_path), StandardCharsets.UTF_8)
                         .map(MovieAnalyzer::splitCSV).skip(1)
                         .map(a -> new Movie(a[1], Integer.parseInt(a[2]), a[3], a[4], a[5], Float.parseFloat(a[6]), a[7],
                                 a[8].length() > 0 ? Integer.parseInt(a[8]) : 0, a[9], a[10], a[11], a[12], a[13],
@@ -294,29 +295,64 @@ public class MovieAnalyzer {
     }
 
     public List<String> getTopStars(int top_k, String by) {
-        Set<String> starsList = new HashSet<>();
-        MovieString.get().map(Movie::getStars).forEach(e -> {
-            for (String t: e) {
-                starsList.add(t);
-            }
-        });
+        Map<String, List<Double>> starsList = new LinkedHashMap<>();
+        if (by.equals("rating")) {
+            MovieString.get().forEach(movie -> {
+                for (String star: movie.getStars()) {
+                    if (starsList.containsKey(star)) {
+                        starsList.get(star).add(movie.getIMDB_Rating());
+                    }
+                    else {
+                        List<Double> t = new ArrayList<>();
+                        t.add(movie.getIMDB_Rating());
+                        starsList.put(star, t);
+                    }
+                }
+            });
+        }
+        else {
+            MovieString.get().filter(movie -> !movie.getGross().equals("")).forEach(movie -> {
+                for (String star: movie.getStars()) {
+                    if (starsList.containsKey(star)) {
+                        starsList.get(star).add((double) movie.getGrossLong());
+                    }
+                    else {
+                        List<Double> t = new ArrayList<>();
+                        t.add((double) movie.getGrossLong());
+                        starsList.put(star, t);
+                    }
+                }
+            });
+        }
         ArrayList<String> result = new ArrayList<>();
         LinkedHashMap<String, Double> target = new LinkedHashMap<>();
         LinkedHashMap<String, Double> targetAfter = new LinkedHashMap<>();
-        for (String star: starsList) {
-            if (by.equals("rating")) {
-                double rating =
-                        MovieString.get().sorted(Comparator.comparing(Movie::getSeries_Title
-                        )).filter(movie -> movie.getStars().contains(star)).collect(Collectors.averagingDouble(Movie::getIMDB_Rating));
-                target.put(star, rating);
-            }
-            else {
-                double gross =
-                        MovieString.get().filter(movie -> !movie.getGross().equals("")).sorted(Comparator.comparing(Movie::getSeries_Title
-                        )).filter(movie -> movie.getStars().contains(star)).collect(Collectors.averagingLong(Movie::getGrossLong));
-                target.put(star, gross);
-            }
+        for (Map.Entry<String, List<Double>> e : starsList.entrySet()) {
+            target.put(e.getKey(), e.getValue().stream().collect(Collectors.averagingDouble(Double::doubleValue)));
         }
+//        Set<String> starsList = new HashSet<>();
+//
+//        MovieString.get().map(Movie::getStars).forEach(e -> {
+//            for (String t: e) {
+//                starsList.add(t);
+//            }
+//        });
+//
+//        ArrayList<String> result = new ArrayList<>();
+//        LinkedHashMap<String, Double> target = new LinkedHashMap<>();
+//        LinkedHashMap<String, Double> targetAfter = new LinkedHashMap<>();
+//        for (String star: starsList) {
+//            if (by.equals("rating")) {
+//                double rating =
+//                        MovieString.get().filter(movie -> movie.getStars().contains(star)).collect(Collectors.averagingDouble(Movie::getIMDB_Rating));
+//                target.put(star, rating);
+//            }
+//            else {
+//                double gross =
+//                        MovieString.get().filter(movie -> !movie.getGross().equals("")).filter(movie -> movie.getStars().contains(star)).collect(Collectors.averagingLong(Movie::getGrossLong));
+//                target.put(star, gross);
+//            }
+//        }
         target.entrySet().stream().sorted(Map.Entry.comparingByKey()).sorted(java.util.Map.Entry.<String, Double>comparingByValue().reversed()).forEachOrdered(e -> targetAfter.put(e.getKey(), e.getValue()));
         int count = 0;
         for (Map.Entry<String, Double> entry: targetAfter.entrySet()){
